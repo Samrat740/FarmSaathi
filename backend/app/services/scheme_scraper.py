@@ -1,8 +1,6 @@
 import requests
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 GOV_API_KEY = os.getenv("GOV_API_KEY")
 RESOURCE_ID = "9afdf346-16d7-4f17-a2e3-684540c59a77"
 

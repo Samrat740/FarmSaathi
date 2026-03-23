@@ -1,12 +1,8 @@
 import requests
 import os
-from dotenv import load_dotenv
 
 from app.services.weather_services import get_weather_by_coords
 from app.services.crop_recommendation import recommend_crop
-
-# 🔹 Load environment variables from .env
-load_dotenv()
 
 # 🔹 Hugging Face model
 HF_MODEL = "meta-llama/Meta-Llama-3-8B-Instruct"
