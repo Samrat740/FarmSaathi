@@ -175,14 +175,6 @@ export default function FarmPage() {
   const navigate = useNavigate()
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
   const [activeCard, setActiveCard] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener("resize", check)
-    return () => window.removeEventListener("resize", check)
-  }, [])
 
   useEffect(() => {
     const fetch = (lat: number, lon: number) =>

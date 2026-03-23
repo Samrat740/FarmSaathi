@@ -66,21 +66,6 @@ const QUICK = ["Drip irrigation", "Hand sprayer", "Organic manure", "Soil kit"]
 
 function recommendCrop(t: number) { return t < 20 ? "Wheat" : t < 30 ? "Rice" : "Millet" }
 
-// ── Logos ─────────────────────────────────────────────────────────────────────
-
-const FlipkartLogo = () => (
-  <svg width="80" height="20" viewBox="0 0 80 20" fill="none">
-    <text x="0" y="16" fontFamily="Arial,sans-serif" fontWeight="800" fontSize="16" fill="#2874f0">flipkart</text>
-  </svg>
-)
-
-const AmazonLogo = () => (
-  <svg width="70" height="24" viewBox="0 0 70 24" fill="none">
-    <text x="0" y="16" fontFamily="Arial,sans-serif" fontWeight="800" fontSize="16" fill="#ff9900">amazon</text>
-    <path d="M4 20 Q35 26 66 20" stroke="#ff9900" strokeWidth="2" fill="none" strokeLinecap="round"/>
-  </svg>
-)
-
 // ── Buy Popup ─────────────────────────────────────────────────────────────────
 
 function BuyPopup({ product, accent, onClose }: { product: Product; accent: string; onClose: () => void }) {
