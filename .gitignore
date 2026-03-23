@@ -1,0 +1,41 @@
+# ======================
+# Python (Backend)
+# ======================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+backend/venv/
+
+# Environment variables
+.env
+backend/app/.env
+
+# Python logs
+*.log
+
+# ======================
+# Node (Frontend)
+# ======================
+node_modules/
+frontend/node_modules/
+
+# Build folders
+dist/
+build/
+frontend/dist/
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+
+# ======================
+# OS files
+# ======================
+.DS_Store
+Thumbs.db
