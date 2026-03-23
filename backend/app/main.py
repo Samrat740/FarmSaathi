@@ -9,7 +9,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",              # local frontend
-        "https://myfarmsaathi.vercel.app/"    # 🔥 replace with your Vercel URL
+        "https://myfarmsaathi.vercel.app"    # 🔥 replace with your Vercel URL
     ],
     allow_credentials=True,
     allow_methods=["*"],
