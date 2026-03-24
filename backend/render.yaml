@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: farmsaathi-backend
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
