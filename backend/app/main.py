@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import farmer, market, lab, chatbot
+from app.routers import crop_router
+from app.routers import seed_router
 
 app = FastAPI(title="FarmSaathi API")
 
@@ -21,6 +23,8 @@ app.include_router(farmer.router, prefix="/farmer")
 app.include_router(market.router, prefix="/market")
 app.include_router(lab.router, prefix="/lab")
 app.include_router(chatbot.router, prefix="/chatbot")
+app.include_router(crop_router.router, prefix="/crop")
+app.include_router(seed_router.router, prefix="/seed")
 
 # ✅ Root (allow HEAD for UptimeRobot)
 @app.api_route("/", methods=["GET", "HEAD"])
