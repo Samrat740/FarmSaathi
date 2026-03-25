@@ -4,16 +4,14 @@ from PIL import Image
 import io
 import os
 from app.services.recommendation import get_recommendations
-from keras.models import load_model
-
+# from keras.models import load_model
+from tensorflow.keras.models import load_model
 # -----------------------------
 # Load Model (once)
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "model.h5")
-
-
-model = load_model(MODEL_PATH, compile=False)
+model = tf.keras.models.load_model(MODEL_PATH)
 
 IMG_SIZE = 224
 
