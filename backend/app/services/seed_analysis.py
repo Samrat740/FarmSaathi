@@ -1,14 +1,13 @@
 import os
 import numpy as np
 import joblib
-from PIL import Image
-import io
+import tempfile
 
 from app.services.seed_recommendation import get_seed_recommendation
 from app.services.feature_extractor import extract_features
 
 # -----------------------------
-# Load Model
+# Load Model (FIXED PATH)
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "seed_quality_model.pkl")
@@ -46,17 +45,29 @@ def simplify_seed_quality(prediction):
 
 
 # -----------------------------
-# 🚀 Main Function
+# 🚀 Main Function (UPDATED)
 # -----------------------------
 def analyze_seed_image(image_bytes):
     try:
-        # Save temp image
-        temp_path = "temp_seed.png"
-        with open(temp_path, "wb") as f:
-            f.write(image_bytes)
+        # ✅ Use temp file (better than fixed file name)
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp:
+            tmp.write(image_bytes)
+            temp_path = tmp.name
 
         # Extract features
-        features = extract_features(temp_path).reshape(1, -1)
+        features = extract_features(temp_path)
+
+        # Clean up temp file
+        os.remove(temp_path)
+
+        # ❌ Safety check
+        if features is None:
+            return {
+                "success": False,
+                "error": "Invalid or unreadable image"
+            }
+
+        features = features.reshape(1, -1)
 
         # Prediction
         prediction = model.predict(features)[0]
@@ -64,7 +75,13 @@ def analyze_seed_image(image_bytes):
         info = simplify_seed_quality(prediction)
 
         # 🔥 AI Recommendation
-        recommendations = get_seed_recommendation(prediction)
+        try:
+            recommendations = get_seed_recommendation(prediction)
+        except Exception:
+            recommendations = {
+                "message": f"Basic advice for {prediction}",
+                "tips": ["Use good quality seeds", "Ensure proper soil conditions"]
+            }
 
         return {
             "success": True,
