@@ -197,7 +197,9 @@ export default function FarmPage() {
         @keyframes cloudDrift{from{transform:translateX(0);}to{transform:translateX(110vw);}}
         @keyframes rainFall{from{transform:translateY(-10px) rotate(15deg);opacity:0;}to{transform:translateY(240px) rotate(15deg);opacity:.65;}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes weatherShimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+        @keyframes lineSlide{0%{width:0%;margin-left:0%;}50%{width:60%;margin-left:20%;}100%{width:0%;margin-left:100%;}}
 
         .cloud{position:absolute;background:rgba(255,255,255,.82);border-radius:50px;filter:blur(2px);}
         .cloud::before,.cloud::after{content:'';position:absolute;background:inherit;border-radius:50%;}
@@ -325,40 +327,14 @@ export default function FarmPage() {
               </>
             ) : (
               <div style={{ position:"relative", overflow:"hidden", borderRadius:"inherit" }}>
-                {/* Sky gradient base */}
-                <div style={{ position:"absolute", inset:0, background:"linear-gradient(160deg,#c06080 0%,#d4849a 35%,#e8aab4 65%,#f5cec8 100%)" }}/>
-                {/* Shimmer sweep */}
-                <div style={{
-                  position:"absolute", inset:0,
-                  background:"linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%)",
-                  backgroundSize:"200% 100%",
-                  animation:"weatherShimmer 1.8s ease-in-out infinite",
-                }}/>
-                {/* Skeleton content matching real layout */}
-                <div style={{ position:"relative", zIndex:2, padding:"clamp(16px,3vw,28px) clamp(16px,4vw,36px)", display:"flex", flexDirection:"column", gap:"16px" }}>
-                  {/* Top row */}
-                  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-                    <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
-                      {/* Location */}
-                      <div style={{ height:"10px", width:"100px", borderRadius:"6px", background:"rgba(255,255,255,0.25)" }}/>
-                      {/* Temp + condition row */}
-                      <div style={{ display:"flex", alignItems:"flex-end", gap:"12px" }}>
-                        <div style={{ height:"clamp(44px,7vw,64px)", width:"clamp(80px,10vw,120px)", borderRadius:"10px", background:"rgba(255,255,255,0.25)" }}/>
-                        <div style={{ paddingBottom:"8px", display:"flex", flexDirection:"column", gap:"8px" }}>
-                          <div style={{ height:"12px", width:"110px", borderRadius:"6px", background:"rgba(255,255,255,0.2)" }}/>
-                          <div style={{ display:"flex", gap:"6px" }}>
-                            <div style={{ height:"22px", width:"90px", borderRadius:"999px", background:"rgba(255,255,255,0.2)" }}/>
-                            <div style={{ height:"22px", width:"80px", borderRadius:"999px", background:"rgba(255,255,255,0.2)" }}/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Forecast pills skeleton */}
-                    <div style={{ display:"flex", gap:"7px" }}>
-                      {[0,1,2,3,4].map(i => (
-                        <div key={i} style={{ width:"54px", height:"70px", borderRadius:"13px", background:"rgba(255,255,255,0.15)", flexShrink:0 }}/>
-                      ))}
-                    </div>
+                <div style={{ position:"absolute", inset:0, background:"linear-gradient(160deg,#b34a6a 0%,#d4748a 25%,#e8a0a8 50%,#f7c5b0 75%,#fde0c5 100%)" }}/>
+                <div style={{ position:"relative", zIndex:2, padding:"clamp(24px,4vw,36px)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:"16px", minHeight:"130px" }}>
+                  <div style={{ textAlign:"center" }}>
+                    <p style={{ fontSize:"13px", fontWeight:700, color:"#fff", textShadow:"0 1px 6px rgba(0,0,0,0.3)", marginBottom:"3px" }}>Fetching weather…</p>
+                    <p style={{ fontSize:"11px", color:"rgba(255,255,255,0.65)", textShadow:"0 1px 4px rgba(0,0,0,0.2)" }}>Detecting your location</p>
+                  </div>
+                  <div style={{ width:"160px", height:"3px", borderRadius:"99px", background:"rgba(255,255,255,0.2)", overflow:"hidden" }}>
+                    <div style={{ height:"100%", borderRadius:"99px", background:"#fff", animation:"lineSlide 1.4s ease-in-out infinite" }}/>
                   </div>
                 </div>
               </div>

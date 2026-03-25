@@ -114,44 +114,75 @@ export default function CropAnalysisPage() {
         .dropzone.filled{border-style:solid;cursor:default;}
         .skel{border-radius:10px;background:linear-gradient(90deg,#f1f5f9 25%,#e8edf2 50%,#f1f5f9 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}
         ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:99px;}
-        @media(max-width:768px){.split{grid-template-columns:1fr!important;}}
+        .nav-toggle-mobile{display:none;}
+        .nav-toggle-desktop{display:flex;}
+        @media(max-width:768px){
+          .split{grid-template-columns:1fr!important;}
+          .nav-toggle-mobile{display:block;}
+          .nav-toggle-desktop{display:none!important;}
+        }
       `}</style>
 
       <div style={{ minHeight:"100vh", background:"#f8fafc", fontFamily:"'Plus Jakarta Sans',sans-serif", color:"#0f172a" }}>
 
         {/* ── NAV ── */}
         <div style={{ borderBottom:"1px solid #e2e8f0", background:"#fff", padding:"0 clamp(16px,4vw,48px)" }}>
-          <div style={{ maxWidth:"1200px", margin:"0 auto", display:"flex", alignItems:"center", gap:"12px", height:"56px" }}>
+          <div style={{ maxWidth:"1200px", margin:"0 auto" }}>
 
-            <button onClick={() => navigate("/farm")}
-              style={{ width:"32px", height:"32px", borderRadius:"8px", border:"1.5px solid #e2e8f0", background:"#fff", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", flexShrink:0 }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
+            {/* Top row: back + breadcrumb + toggle (desktop) */}
+            <div style={{ display:"flex", alignItems:"center", gap:"12px", height:"56px" }}>
 
-            <div style={{ width:"1px", height:"20px", background:"#e2e8f0" }}/>
+              <button onClick={() => navigate("/farm")}
+                style={{ width:"32px", height:"32px", borderRadius:"8px", border:"1.5px solid #e2e8f0", background:"#fff", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", flexShrink:0 }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
 
-            <div style={{ display:"flex", alignItems:"center", gap:"6px" }}>
-              <span style={{ fontSize:"13px", color:"#94a3b8", cursor:"pointer" }} onClick={() => navigate("/farm")}>Farm</span>
-              <span style={{ color:"#cbd5e1" }}>›</span>
-              <span style={{ fontSize:"13px", fontWeight:600 }}>Crop & Seed Analysis</span>
+              <div style={{ width:"1px", height:"20px", background:"#e2e8f0", flexShrink:0 }}/>
+
+              <div style={{ display:"flex", alignItems:"center", gap:"6px", minWidth:0, flex:1 }}>
+                <span style={{ fontSize:"13px", color:"#94a3b8", cursor:"pointer", whiteSpace:"nowrap" }} onClick={() => navigate("/farm")}>Farm</span>
+                <span style={{ color:"#cbd5e1", flexShrink:0 }}>›</span>
+                <span style={{ fontSize:"13px", fontWeight:600, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
+                  {mode === "crop" ? "Crop Analysis" : "Seed Analysis"}
+                </span>
+              </div>
+
+              {/* Radio toggle — hidden on mobile, shown inline on desktop */}
+              <div className="nav-toggle-desktop" style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:"3px", padding:"3px", borderRadius:"9px", background:"#f1f5f9", border:"1px solid #e2e8f0", flexShrink:0 }}>
+                {(["crop","seed"] as Mode[]).map(m => (
+                  <label key={m} style={{
+                    display:"flex", alignItems:"center", gap:"6px",
+                    padding:"5px 14px", borderRadius:"6px", cursor:"pointer",
+                    background: mode===m ? "#fff" : "transparent",
+                    boxShadow: mode===m ? "0 1px 3px rgba(0,0,0,0.09)" : "none",
+                    transition:"all .15s",
+                  }}>
+                    <input type="radio" name="mode" value={m} checked={mode===m} onChange={()=>switchMode(m)} style={{ display:"none" }}/>
+                    <span style={{ fontSize:"13px", fontWeight:600, color: mode===m ? "#0f172a" : "#94a3b8" }}>
+                      {m === "crop" ? "🌿 Crop" : "🌱 Seed"}
+                    </span>
+                  </label>
+                ))}
+              </div>
+
             </div>
 
-            {/* Radio toggle */}
-            <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:"3px", padding:"3px", borderRadius:"9px", background:"#f1f5f9", border:"1px solid #e2e8f0" }}>
-              {(["crop","seed"] as Mode[]).map(m => (
-                <label key={m} style={{
-                  display:"flex", alignItems:"center", gap:"6px",
-                  padding:"5px 14px", borderRadius:"6px", cursor:"pointer",
-                  background: mode===m ? "#fff" : "transparent",
-                  boxShadow: mode===m ? "0 1px 3px rgba(0,0,0,0.09)" : "none",
-                  transition:"all .15s",
-                }}>
-                  <input type="radio" name="mode" value={m} checked={mode===m} onChange={()=>switchMode(m)} style={{ display:"none" }}/>
-                  <span style={{ fontSize:"13px", fontWeight:600, color: mode===m ? "#0f172a" : "#94a3b8" }}>
+            {/* Mobile-only toggle row */}
+            <div className="nav-toggle-mobile" style={{ paddingBottom:"12px" }}>
+              <div style={{ display:"flex", gap:"8px" }}>
+                {(["crop","seed"] as Mode[]).map(m => (
+                  <button key={m} onClick={() => switchMode(m)} style={{
+                    flex:1, padding:"9px 0", borderRadius:"10px", cursor:"pointer",
+                    fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:"13.5px", fontWeight:700,
+                    border: mode===m ? "none" : "1.5px solid #e2e8f0",
+                    background: mode===m ? "#16a34a" : "#fff",
+                    color: mode===m ? "#fff" : "#64748b",
+                    transition:"all .15s",
+                  }}>
                     {m === "crop" ? "🌿 Crop" : "🌱 Seed"}
-                  </span>
-                </label>
-              ))}
+                  </button>
+                ))}
+              </div>
             </div>
 
           </div>
@@ -257,12 +288,18 @@ export default function CropAnalysisPage() {
             {/* ── RIGHT: Results ── */}
             <div>
 
-              {/* Loading skeleton */}
+              {/* Loader */}
               {loading && (
-                <div style={{ display:"flex", flexDirection:"column", gap:"12px" }}>
-                  <div className="skel" style={{ height:"110px" }}/>
-                  <div className="skel" style={{ height:"80px" }}/>
-                  <div className="skel" style={{ height:"150px" }}/>
+                <div style={{ padding:"60px 24px", borderRadius:"14px", background:"#fff", border:"1.5px solid #e2e8f0", display:"flex", flexDirection:"column", alignItems:"center", gap:"18px" }}>
+                  <div style={{ position:"relative", width:"52px", height:"52px" }}>
+                    <div style={{ position:"absolute", inset:0, borderRadius:"50%", border:"3px solid #e2e8f0" }}/>
+                    <div style={{ position:"absolute", inset:0, borderRadius:"50%", border:"3px solid transparent", borderTopColor:"#16a34a", animation:"spin .75s linear infinite" }}/>
+                    <div style={{ position:"absolute", inset:"10px", borderRadius:"50%", border:"2px solid transparent", borderTopColor:"#86efac", animation:"spin .55s linear infinite reverse" }}/>
+                  </div>
+                  <div style={{ textAlign:"center" }}>
+                    <p style={{ fontSize:"13.5px", fontWeight:700, color:"#334155", marginBottom:"4px" }}>Analyzing {mode === "crop" ? "crop" : "seed"}…</p>
+                    <p style={{ fontSize:"12px", color:"#94a3b8" }}>AI is processing your image</p>
+                  </div>
                 </div>
               )}
 

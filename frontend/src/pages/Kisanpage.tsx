@@ -141,11 +141,13 @@ function VoiceModal({ voiceState, transcript, aiReply, onStop, onClose, onStartL
       <div style={{
         position: "relative", zIndex: 1,
         width: "min(500px, calc(100vw - 32px))",
+        maxHeight: "min(600px, calc(100vh - 80px))",
         background: "linear-gradient(165deg, #0c2416 0%, #0e1d0e 55%, #0d0d0d 100%)",
         borderRadius: "28px",
         border: "1px solid rgba(74,222,128,0.14)",
         boxShadow: "0 40px 100px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(74,222,128,0.06)",
         overflow: "hidden",
+        display: "flex", flexDirection: "column",
         animation: "modalSlideUp .35s cubic-bezier(.34,1.24,.64,1) both",
       }}>
         {/* Top glow bar */}
@@ -160,7 +162,7 @@ function VoiceModal({ voiceState, transcript, aiReply, onStop, onClose, onStartL
           animation: (voiceState === "listening" || voiceState === "speaking") ? "glowSweep 2s ease-in-out infinite" : "none",
         }} />
 
-        <div style={{ padding: "24px 24px 30px" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "24px 24px 0", scrollbarWidth: "thin", scrollbarColor: "rgba(74,222,128,0.2) transparent" }}>
 
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
@@ -276,7 +278,7 @@ function VoiceModal({ voiceState, transcript, aiReply, onStop, onClose, onStartL
           {aiReply && (
             <div style={{
               background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)",
-              borderRadius: "16px", padding: "13px 17px", marginBottom: "22px",
+              borderRadius: "16px", padding: "13px 17px", marginBottom: "16px",
               animation: "fadeSlideIn .3s .05s ease both",
             }}>
               <p style={{ fontSize: "9.5px", color: "rgba(255,255,255,0.35)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: "6px" }}>Kisan AI</p>
@@ -284,7 +286,10 @@ function VoiceModal({ voiceState, transcript, aiReply, onStop, onClose, onStartL
             </div>
           )}
 
-          {/* Action buttons */}
+        </div>
+
+        {/* Action buttons — pinned to bottom */}
+        <div style={{ padding: "16px 24px 28px", flexShrink: 0, background: "linear-gradient(to bottom, transparent, rgba(13,13,13,0.95) 40%)" }}>
           <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
             {voiceState === "listening" && (
               <button onClick={onStop} style={{

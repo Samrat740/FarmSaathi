@@ -158,7 +158,7 @@ function MandiCard({ entry, index }: { entry: MandiEntry; index: number }) {
           )}
           {modal!==undefined && (
             <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", padding:"6px 4px", borderRadius:"10px", background:`${accent}12` }}>
-              <span style={{ fontSize:"9px", fontWeight:600, color:accent, letterSpacing:".06em" }}>MODAL</span>
+              <span style={{ fontSize:"9px", fontWeight:600, color:accent, letterSpacing:".06em" }}>RATE</span>
               <span style={{ fontSize:"13px", fontWeight:800, color:accent, marginTop:"2px" }}>₹{modal}</span>
             </div>
           )}
