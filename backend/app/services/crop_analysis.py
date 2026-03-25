@@ -4,18 +4,54 @@ from PIL import Image
 import io
 import os
 from app.services.recommendation import get_recommendations
-# from keras.models import load_model
-from tensorflow.keras.models import load_model
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras import layers, models
+
 # -----------------------------
 # Load Model (once)
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "model.h5")
-model = tf.keras.models.load_model(MODEL_PATH)
 
 IMG_SIZE = 224
 
-# ⚠️ MUST match training class order
+# -----------------------------
+# 🔥 Recreate Model Architecture
+# -----------------------------
+def create_model():
+    from tensorflow.keras.applications import MobileNetV2
+    from tensorflow.keras import layers, models
+
+    base_model = MobileNetV2(
+        input_shape=(224, 224, 3),
+        include_top=False,
+        weights=None
+    )
+
+    base_model.trainable = False
+
+    x = base_model.output
+    x = layers.GlobalAveragePooling2D()(x)
+    x = layers.Dense(128, activation='relu')(x)
+    x = layers.Dropout(0.3)(x)
+
+    # 🔥 FIXED LINE
+    output = layers.Dense(6, activation='softmax')(x)
+
+    model = models.Model(inputs=base_model.input, outputs=output)
+
+    return model
+
+
+# -----------------------------
+# 🔥 Load Weights (FIXED)
+# -----------------------------
+model = create_model()
+model.load_weights(MODEL_PATH)
+
+# -----------------------------
+# Class Names
+# -----------------------------
 class_names = [
     "Corn_(maize)___healthy",
     "Potato___Early_blight",
@@ -107,10 +143,10 @@ def analyze_crop_image(image_bytes):
 
         return {
             "success": True,
-            "disease": info["title"],        # ✅ user-friendly
-            "cause": info["cause"],          # ✅ why it happened
-            "reason": info["reason"],        # ✅ simple explanation
-            "raw_disease": raw_disease,      # ✅ for system use
+            "disease": info["title"],
+            "cause": info["cause"],
+            "reason": info["reason"],
+            "raw_disease": raw_disease,
             "confidence": round(confidence * 100, 2),
             "recommendations": recommendations
         }
