@@ -155,9 +155,9 @@ export default function Landing() {
             <span
               className="nav-link text-sm font-medium flex-shrink-0"
               style={{ color: "#fff", letterSpacing: "0.02em" }}
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/overview") }
             >
-              Overview
+              Download
             </span>
           </div>
 
@@ -202,7 +202,7 @@ export default function Landing() {
                 boxShadow: "0 16px 48px rgba(0,0,0,0.7)",
               }}
             >
-              {["Farm", "Market", "Lab", "Overview"].map((item, i, arr) => (
+              {["Farm", "Market", "Lab", "Download"].map((item, i, arr) => (
                 <div
                   key={item}
                   onClick={() => { setMenuOpen(false); if (item !== "Home") navigate(`/${item.toLowerCase()}`) }}

@@ -255,7 +255,7 @@ function Navbar({ active }: { active: string }) {
             </span>
           ))}
         </div>
-        <span onClick={() => navigate("/")} style={{ cursor:"pointer", fontSize:"0.85rem", fontWeight:500, color:"rgba(255,255,255,0.42)" }}>Overview</span>
+        <span onClick={() => navigate("/overview")} style={{ cursor:"pointer", fontSize:"0.85rem", fontWeight:500, color:"rgba(255,255,255,0.42)" }}>Download</span>
       </div>
 
       <div className="mob-nav" style={{

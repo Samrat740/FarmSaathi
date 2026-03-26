@@ -12,12 +12,14 @@ import SellPage from "./pages/SellPage"
 import KisanPage from "./pages/Kisanpage"
 import CropAnalysisPage from "./pages/Cropanalysispage"
 import BuySupplies from "./pages/BuySupplies"
+import Overview from "./pages/Overview"
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/overview" element={<Overview />} />
         <Route path="/farm" element={<FarmPage />} />
         <Route path="/market" element={<MarketPage />} />
         <Route path="/lab" element={<LabPage />} />
