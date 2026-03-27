@@ -195,9 +195,9 @@ FarmSaathi/
 - [x] Soil health analyzer
 - [x] Fertilizer calculator
 - [x] Gamified crop simulator
+- [x] Mobile app
 - [ ] Sell produce marketplace *(in progress)*
 - [ ] Multilingual support
-- [ ] Mobile app
 
 ---
 
