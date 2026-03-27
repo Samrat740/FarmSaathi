@@ -205,7 +205,7 @@ export default function Landing() {
               {["Farm", "Market", "Lab", "Download"].map((item, i, arr) => (
                 <div
                   key={item}
-                  onClick={() => { setMenuOpen(false); if (item !== "Home") navigate(`/${item.toLowerCase()}`) }}
+                  onClick={() => { setMenuOpen(false); item === "Download" ? navigate("/overview") : item !== "Home" && navigate(`/${item.toLowerCase()}`) }}
                   className="flex items-center justify-between px-5 py-4 cursor-pointer"
                   style={{
                     borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
